@@ -1,21 +1,42 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+import ConfigParser
+
 class User:
 	
-	username = '<your name>'
-	accountID = '<your student ID>'
-	password = '<your password>'
+	username = ''
+	accountID = ''
+	password = ''
 
-	twilioID = '<your twilio account id>'
-	twilioToken = '<your twilio token>'
+	twilioID = ''
+	twilioToken = ''
 
-	phNumber_from = '<your twilio phone number>'
-	phNumber_to = '<your own phone number>'
+	phNumber_from = ''
+	phNumber_to = ''
 
-	target_subject = '<subject number> - <subject full name>'
+	target_subject = ''
+
+	def __init__(self):
+
+		cp = ConfigParser.SafeConfigParser()
+		cp.read('user.conf')
+
+		self.username = cp.get('user', 'username')
+		self.accountID = cp.get('user', 'accountID')
+		self.password = cp.get('user', 'password')
+		self.twilioID = cp.get('user', 'twilioID')
+		self.twilioToken = cp.get('user', 'twilioToken')
+		self.phNumber_from = cp.get('user', 'phNumber_from')
+		self.phNumber_to = cp.get('user', 'phNumber_to')
+		self.target_subject = cp.get('user', 'target_subject')
+
 
 	def detail(self):
+
 		print 'Hi,', self.username, '-', self.accountID, '.'
 		print 'The subject to be found is:', self.target_subject
 		print 'The alert message will be sent from:', self.phNumber_from, 'to:', self.phNumber_to, 'immediately once its found!'
+
 
 
 

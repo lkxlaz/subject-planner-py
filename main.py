@@ -26,7 +26,7 @@ except:
 def login(username, password):
 
     print '........................................'
-    print('Logging in...')
+    print 'Logging in...at', time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
     url = 'https://onestopadmin.uts.edu.au/estudent/Login.aspx'
     response = session.get(url, headers=headers, allow_redirects=True)
@@ -49,7 +49,7 @@ def login(username, password):
             "__EVENTVALIDATION": eventvalidation_value,
             "ctl00$Content$txtUserName$txtText":username,
             "ctl00$Content$txtPassword$txtText":password}
-            
+
     result = session.post(url, data=login_data, headers=headers)
     print(result)
     # 保存cookie到本地
@@ -153,6 +153,8 @@ if __name__ == '__main__':
     page = get_studyplan_page()
 
     parse_html(page)
+
+
 
 
 
