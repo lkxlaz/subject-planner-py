@@ -14,7 +14,7 @@ Have you ever been into a situation in which you cannot enrol in a subject as it
 
 Please also note that this is just a play-for-fun project, some bugs may occur upon many unknown situations. It has not been well tested, and I, for sure, don't take any responsibilities for any bad outcome.
 
-###Todo List:
+##Todo List:
 1. User can choose to reply the message and enrol in the available subject immediately
 2. The programme is able to log into UTS myTimetable.(This needs to be done by simulating JQuery ajax   post which is diffrent from logging into my student admin site. So that we need to extend the exsi   sting functionality of login module)
 3. Check subject classess availabilities
