@@ -13,3 +13,10 @@ A Python script used to check subjects availability for UTS My Student Admin Web
 Have you ever been into a situation in which you cannot enrol in a subject as its enrolment quota hasbeen reached? or got rejected by subjects admin when trying to send e-request to enrol in it and you got nothing to do with it but desperately waiting for someone to drop it out? Or you are tired of checking it again and again manually? If the answer is yes, then this is for you. Save your life and save your time out of this endless trap.
 
 Please also note that this is just a play-for-fun project, some bugs may occur upon many unknown situations. It has not been well tested, and I, for sure, don't take any responsibilities for any bad outcome.
+
+###Todo List:
+1. User can choose to reply the message and enrol in the available subject immediately
+2. The programme is able to log into UTS myTimetable.(This needs to be done by simulating JQuery ajax   post which is diffrent from logging into my student admin site. So that we need to extend the exsi   sting functionality of login module)
+3. Check subject classess availabilities
+3. User can choose to allocate the available classess by replying SMS
+3. 
