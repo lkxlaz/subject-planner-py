@@ -17,3 +17,4 @@ Please also note that this is just a play-for-fun project, some bugs may occur u
 ##Todo List:
 1. User can choose to reply the message and enrol in the available subject immediately
 2. User can choose to allocate the available classess by replying SMS
+3. Refactor the code and make it modularised.
