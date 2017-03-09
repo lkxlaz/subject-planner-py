@@ -16,7 +16,4 @@ Please also note that this is just a play-for-fun project, some bugs may occur u
 
 ##Todo List:
 1. User can choose to reply the message and enrol in the available subject immediately
-2. The programme is able to log into UTS myTimetable.(This needs to be done by simulating JQuery ajax   post which is diffrent from logging into my student admin site. So that we need to extend the exsi   sting functionality of login module)
-3. Check subject classess availabilities
-3. User can choose to allocate the available classess by replying SMS
-3. 
+2. User can choose to allocate the available classess by replying SMS
