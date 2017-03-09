@@ -6,7 +6,6 @@ import time
 import string
 import json
 from lxml import html
-from twilio.rest import TwilioRestClient
 from User import User
 
 
@@ -167,7 +166,7 @@ def parse_html(html_page):
     for subject in subjects_name:
         if (subject.text_content() == target):
             print "Subject found! Message has been sent!"
-            send_SMS("Target subject found!")
+            user.send_SMS("Target subject found!")
             return 
     print "Sorry, target Subject not found."
 
@@ -183,15 +182,6 @@ def extractFrom(page):
     return json.loads(json_data)
 
 
-def send_SMS(msg):
-
-    client = TwilioRestClient(user.twilioID, user.twilioToken)
-
-    client.messages.create(
-        to = user.phNumber_to,
-        from_ = user.phNumber_from,
-        body = msg
-    )
 
 def handle(choice='myAdmin'):
 
@@ -233,15 +223,4 @@ if __name__ == '__main__':
 
     handle(user.loginChoice)
 
-
-
-
-
-
-
-
-
-
   
-
-

@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 import ConfigParser
+from twilio.rest import TwilioRestClient
 
 class User:
 	
@@ -41,6 +42,7 @@ class User:
 		print 'The subject to be found is:', self.target_subject
 		print 'The alert message will be sent from:', self.phNumber_from, 'to:', self.phNumber_to, 'immediately once its found!'
 
+
 	def setToken(self, tk):
 
 		self.__token = tk
@@ -48,6 +50,18 @@ class User:
 	def getToken(self):
 
 		return self.__token
+
+	def send_SMS(self, msg):
+
+		client = TwilioRestClient(self.twilioID, self.twilioToken)
+		client.messages.create(
+			to = self.phNumber_to,
+			from_ = self.phNumber_from,
+			body = msg
+			)
+
+
+
 
 
 
