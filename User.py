@@ -22,7 +22,7 @@ class User:
 	def __init__(self):
 
 		cp = ConfigParser.SafeConfigParser()
-		cp.read('test-user.cfg')
+		cp.read('user.cfg')
 
 		self.username = cp.get('user', 'username')
 		self.accountID = cp.get('user', 'accountID')
