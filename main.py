@@ -9,7 +9,11 @@ from lxml import html
 from twilio.rest import TwilioRestClient
 from User import User
 
+
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:48.0) Gecko/20100101 Firefox/48.0'}
+ajax_headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:48.0) Gecko/20100101 Firefox/48.0',
+            'X-Requested-With': 'XMLHttpRequest'}
+
 filename = 'cookie'
 
 # 建立一个会话，可以把同一用户的不同请求联系起来；直到会话结束都会自动处理cookies
@@ -23,7 +27,7 @@ try:
 except:
     print('Cookie has not been loaded！')
 
-def login(username, password):
+def login_myAdmin(username, password):
 
     print '........................................'
     print 'Logging in...at', time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
@@ -54,6 +58,26 @@ def login(username, password):
     print(result)
     # 保存cookie到本地
     session.cookies.save(ignore_discard=True, ignore_expires=True)
+
+def login_myTimetable(username, password):
+
+    print '........................................'
+    print 'Logging in...at', time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+
+    url = 'https://mytimetable.uts.edu.au/aplus2017/rest/student/login'
+    login_data = {'username': username, 'password': password}
+    response = session.post(url, data=login_data, headers=ajax_headers)
+
+    response_dict =  response.json()
+
+    if (response_dict['success'] == True):
+        print 'login successfully'
+        token = response_dict['token']
+        user.setToken(token)
+    else:
+        print 'Failed to log in'
+
+
 
 def get_studyplan_page():
 
@@ -105,6 +129,23 @@ def get_studyplan_page():
         studyplan_page_html = resp.text
         return studyplan_page_html
 
+def get_home_page():
+
+    token = user.getToken()
+    home_url = 'https://mytimetable.uts.edu.au/aplus2017/student?ss=' + token
+    rp = session.get(home_url, headers=ajax_headers, allow_redirects=True)
+    return rp.text
+
+def login(username, password, choice='myAdmin'):
+
+    if (choice == 'myAdmin'):
+        login_myAdmin(username, password)
+    elif (choice == 'myTimetable'):
+        login_myTimetable(username, password)
+    else:
+        print 'Failed to log in'
+
+
 
 def parse_html(html_page):
 
@@ -130,6 +171,17 @@ def parse_html(html_page):
             return 
     print "Sorry, target Subject not found."
 
+def extractFrom(page):
+
+    page_home = html.fromstring(page)
+    temp_nodes = page_home.xpath('/html/body/script')
+    temp_node = temp_nodes[0]
+    # Get json data using re
+    matchObj = re.search(r'data=(.*);', temp_node.text_content())
+    json_data = matchObj.group(1)
+
+    return json.loads(json_data)
+
 
 def send_SMS(msg):
 
@@ -141,6 +193,35 @@ def send_SMS(msg):
         body = msg
     )
 
+def handle(choice='myAdmin'):
+
+    if(choice == 'myAdmin'):
+        page = get_studyplan_page()
+        parse_html(page)
+    if(choice == 'myTimetable'):
+        page = get_home_page()
+        student_dict = extractFrom(page)
+
+        student_allocated_dict = student_dict['student']['allocated']
+        student_enrolment_dict = student_dict['student']['student_enrolment']
+
+        subject_list = []
+        subject_acts_list = []
+
+        for subject in student_enrolment_dict:
+
+            subject_dict = student_enrolment_dict[subject]
+
+            for group in subject_dict['groups']:
+
+                acts_url = 'https://mytimetable.uts.edu.au/aplus2017/rest/student/' + user.accountID + '/subject/' + subject + '/group/' + group + '/activities/?ss=' + user.getToken()
+                rp = session.get(acts_url, headers=headers, allow_redirects=True)
+                acts_dict =  rp.json()
+
+                for act in acts_dict:
+                    print act, ':', acts_dict[act]['selectable']
+
+
 
 if __name__ == '__main__':
 
@@ -148,11 +229,10 @@ if __name__ == '__main__':
 
     user.detail()
 
-    login(user.accountID, user.password)
-    
-    page = get_studyplan_page()
+    login(user.accountID, user.password, user.loginChoice)
 
-    parse_html(page)
+    handle(user.loginChoice)
+
 
 
 

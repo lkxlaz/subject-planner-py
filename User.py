@@ -7,6 +7,7 @@ class User:
 	username = ''
 	accountID = ''
 	password = ''
+	__token = ''
 
 	twilioID = ''
 	twilioToken = ''
@@ -14,12 +15,14 @@ class User:
 	phNumber_from = ''
 	phNumber_to = ''
 
+	loginChoice = ''
+
 	target_subject = ''
 
 	def __init__(self):
 
 		cp = ConfigParser.SafeConfigParser()
-		cp.read('user.cfg')
+		cp.read('test-user.cfg')
 
 		self.username = cp.get('user', 'username')
 		self.accountID = cp.get('user', 'accountID')
@@ -28,6 +31,7 @@ class User:
 		self.twilioToken = cp.get('user', 'twilioToken')
 		self.phNumber_from = cp.get('user', 'phNumber_from')
 		self.phNumber_to = cp.get('user', 'phNumber_to')
+		self.loginChoice = cp.get('user', 'loginChoice')
 		self.target_subject = cp.get('user', 'target_subject')
 
 
@@ -37,6 +41,13 @@ class User:
 		print 'The subject to be found is:', self.target_subject
 		print 'The alert message will be sent from:', self.phNumber_from, 'to:', self.phNumber_to, 'immediately once its found!'
 
+	def setToken(self, tk):
+
+		self.__token = tk
+
+	def getToken(self):
+
+		return self.__token
 
 
 
