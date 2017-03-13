@@ -195,9 +195,6 @@ def handle(choice='myAdmin'):
         student_allocated_dict = student_dict['student']['allocated']
         student_enrolment_dict = student_dict['student']['student_enrolment']
 
-        subject_list = []
-        subject_acts_list = []
-
         for subject in student_enrolment_dict:
 
             subject_dict = student_enrolment_dict[subject]
